@@ -12,11 +12,11 @@
         <Button x:Name="browseButton" Content="Browse" HorizontalAlignment="Left" Margin="430,18,0,0" VerticalAlignment="Top" Width="75" Click="browseButtonClick"/>
         <Button x:Name="open" Content="Open" HorizontalAlignment="Left" Margin="430,50,0,0" VerticalAlignment="Top" Width="75" Click="openFile" />
         
-        <Label Content="Accelerometer" HorizontalAlignment="Left" Margin="240,80,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="accelerometerResults" HorizontalAlignment="Left" Height="120" Margin="244,103,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
+        <Label Content="Accelerometer" HorizontalAlignment="Left" Margin="240,100,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="accelerometerResults" HorizontalAlignment="Left" Height="120" Margin="244,123,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
 
-        <Label Content="Magnetometer (Compass)" HorizontalAlignment="Left" Margin="240,240,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="magnetometerResults" HorizontalAlignment="Left" Height="120" Margin="244,263,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
+        <Label Content="Magnetometer (Compass)" HorizontalAlignment="Left" Margin="240,260,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="magnetometerResults" HorizontalAlignment="Left" Height="120" Margin="244,283,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
 
         <Label Content="Light" HorizontalAlignment="Left" Margin="440,80,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="lightResults" HorizontalAlignment="Left" Height="60" Margin="444,103,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
@@ -35,6 +35,8 @@
 
         <Label Content="Gravity" HorizontalAlignment="Left" Margin="640,320,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="gravityResults" HorizontalAlignment="Left" Height="120" Margin="644,343,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" IsEnabled="False"/>
+        
+        <Label x:Name="hMaxLabel" HorizontalAlignment="Left" Margin="240,65,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

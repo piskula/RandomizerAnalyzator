@@ -174,6 +174,7 @@ namespace RandomizerAnalyzator
                     + "\n" + gyroscope2.ToHstring() + "\n" + gyroscope3.ToHstring();
             orientationResults.Text = "Count: " + orientation1.getCount() + "\n" + orientation1.ToHstring()
                     + "\n" + orientation2.ToHstring() + "\n" + orientation3.ToHstring();
+            hMaxLabel.Content = Math.Log(Convert.ToDouble(light.getCount()), 2.0);
         }
     }
 }
