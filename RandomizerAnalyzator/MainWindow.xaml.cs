@@ -22,6 +22,8 @@ namespace RandomizerAnalyzator
     /// </summary>
     public partial class MainWindow : Window
     {
+        public const string PARSE_STRING = "yyyy/MM/dd HH:mm:ss.FFF";
+
         Result acceleration1;
         Result acceleration2;
         Result acceleration3;
@@ -105,6 +107,8 @@ namespace RandomizerAnalyzator
                         Match m = g.Match(line);
                         if (m.Success)
                         {
+                            seconds.Add(m.Groups[1].Value);
+
                             acceleration1.Add(m.Groups[3].Value);
                             acceleration2.Add(m.Groups[4].Value);
                             acceleration3.Add(m.Groups[5].Value);
@@ -126,11 +130,21 @@ namespace RandomizerAnalyzator
                             orientation1.Add(m.Groups[11].Value);
                             orientation2.Add(m.Groups[12].Value);
                             orientation3.Add(m.Groups[13].Value);
-                            sb.Append(m.Groups[1].Value + ": Line is OK\n");
+                            //sb.Append(m.Groups[1].Value + ": Line is OK\n");
                         }
                     }
                 }
             }
+            DateTime from = DateTime.ParseExact(seconds.FirstOrDefault(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+            DateTime to = DateTime.ParseExact(seconds.Last(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+            sb.Append("Date:     " + from.ToLongDateString() + "\n");
+            sb.Append("Start on: " + from.ToLongTimeString() + "\n");
+            sb.Append("Stop on:  " + to.ToLongTimeString() + "\n\n");
+            TimeSpan diff = to - from;
+            sb.Append("Duration: " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s\n");
+            diff = new TimeSpan(diff.Ticks / seconds.Count);
+            sb.Append("Average:  " + diff.Minutes + "m " + diff.Seconds + "s " + diff.Milliseconds + "ms");
+
             this.acceleration1 = new Result(acceleration1);
             this.acceleration2 = new Result(acceleration2);
             this.acceleration3 = new Result(acceleration3);
