@@ -11,9 +11,10 @@ namespace RandomizerAnalyzator
     {
         Dictionary<double, int> streamedData = new Dictionary<double, int>();
 
-        double Hmax = Convert.ToDouble(0);
-        double H = Convert.ToDouble(0);
-        int count = 0;
+        private double Hmin = Convert.ToDouble(0);
+        private double H = Convert.ToDouble(0);
+        private int maxCount = -1;
+        private int count = 0;
 
         public Result(List<String> values)
         {
@@ -29,11 +30,16 @@ namespace RandomizerAnalyzator
             H = Convert.ToDouble(0);
             foreach (var current in streamedData)
             {
+                if(current.Value > maxCount)
+                {
+                    maxCount = current.Value;
+                }
+
                 double xyz = -Math.Log(Convert.ToDouble(current.Value) / count, 2.0);
                 H += (Convert.ToDouble(current.Value) / count) * (-xyz);
-                //H = -H;
             }
-            Hmax = Math.Log(Convert.ToDouble(streamedData.Keys.Count), 2.0);
+
+            Hmin = -Math.Log(Convert.ToDouble(maxCount) / count, 2.0);
         }
 
         public void addValue(double number)
@@ -51,9 +57,9 @@ namespace RandomizerAnalyzator
             }
         }
 
-        public double getHmax()
+        public double getHmin()
         {
-            return Hmax;
+            return Hmin;
         }
 
         public double getH()
@@ -66,20 +72,25 @@ namespace RandomizerAnalyzator
             return count;
         }
 
+        public int getMaxCount()
+        {
+            return maxCount;
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
             sb.Append("Count: " + getCount() + "\n");
             sb.Append("H =    " + getH() + "\n");
-            sb.Append("Hmax   " + getHmax());
+            sb.Append("Hmin   " + getHmin() + " [" + getMaxCount() + "]");
 
             return sb.ToString();
         }
 
         public string ToHstring()
         {
-            return "H =    " + getH() + "\nHmax   " + getHmax();
+            return "H =    " + getH() + "\nHmin   " + getHmin() + " [" + getMaxCount() + "]";
         }
     }
 }

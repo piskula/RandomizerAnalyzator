@@ -45,6 +45,7 @@ namespace RandomizerAnalyzator
         Result orientation1;
         Result orientation2;
         Result orientation3;
+        Result sound;
 
         public MainWindow()
         {
@@ -96,80 +97,108 @@ namespace RandomizerAnalyzator
             List<string> gravity1 = new List<string>();
             List<string> gravity2 = new List<string>();
             List<string> gravity3 = new List<string>();
+            List<string> sound = new List<string>();
 
             if (filePath.Text != "")
             {
-                using (StreamReader r = new StreamReader(filePath.Text))
+                if (filePath.Text.Contains("record_") && filePath.Text.Contains(".vvv"))
                 {
-                    string line;
-                    while ((line = r.ReadLine()) != null)
+                    using (StreamReader r = new StreamReader(filePath.Text))
                     {
-                        Match m = g.Match(line);
-                        if (m.Success)
+                        string line;
+                        for (int i = 0; i < 35; i++)
                         {
-                            seconds.Add(m.Groups[1].Value);
-
-                            acceleration1.Add(m.Groups[3].Value);
-                            acceleration2.Add(m.Groups[4].Value);
-                            acceleration3.Add(m.Groups[5].Value);
-                            magnetometer1.Add(m.Groups[7].Value);
-                            magnetometer2.Add(m.Groups[8].Value);
-                            magnetometer3.Add(m.Groups[9].Value);
-                            light.Add(m.Groups[19].Value);
-                            proximity.Add(m.Groups[21].Value);
-                            rotvec1.Add(m.Groups[31].Value);
-                            rotvec2.Add(m.Groups[32].Value);
-                            rotvec3.Add(m.Groups[33].Value);
-                            rotvec4.Add(m.Groups[34].Value);
-                            gyroscope1.Add(m.Groups[15].Value);
-                            gyroscope2.Add(m.Groups[16].Value);
-                            gyroscope3.Add(m.Groups[17].Value);
-                            gravity1.Add(m.Groups[23].Value);
-                            gravity2.Add(m.Groups[24].Value);
-                            gravity3.Add(m.Groups[25].Value);
-                            orientation1.Add(m.Groups[11].Value);
-                            orientation2.Add(m.Groups[12].Value);
-                            orientation3.Add(m.Groups[13].Value);
-                            //sb.Append(m.Groups[1].Value + ": Line is OK\n");
+                            line = r.ReadLine();
+                            if (line.Contains("Valid range for data"))
+                            {
+                                break;
+                            }
+                        }
+                        while ((line = r.ReadLine()) != null)
+                        {
+                            sound.Add(line);
                         }
                     }
+
+                    this.sound = new Result(sound);
+
+                    CalculateSound();
+                }
+                else
+                {
+                    using (StreamReader r = new StreamReader(filePath.Text))
+                    {
+                        string line;
+                        while ((line = r.ReadLine()) != null)
+                        {
+                            Match m = g.Match(line);
+                            if (m.Success)
+                            {
+                                seconds.Add(m.Groups[1].Value);
+
+                                acceleration1.Add(m.Groups[3].Value);
+                                acceleration2.Add(m.Groups[4].Value);
+                                acceleration3.Add(m.Groups[5].Value);
+                                magnetometer1.Add(m.Groups[7].Value);
+                                magnetometer2.Add(m.Groups[8].Value);
+                                magnetometer3.Add(m.Groups[9].Value);
+                                light.Add(m.Groups[19].Value);
+                                proximity.Add(m.Groups[21].Value);
+                                rotvec1.Add(m.Groups[31].Value);
+                                rotvec2.Add(m.Groups[32].Value);
+                                rotvec3.Add(m.Groups[33].Value);
+                                rotvec4.Add(m.Groups[34].Value);
+                                gyroscope1.Add(m.Groups[15].Value);
+                                gyroscope2.Add(m.Groups[16].Value);
+                                gyroscope3.Add(m.Groups[17].Value);
+                                gravity1.Add(m.Groups[23].Value);
+                                gravity2.Add(m.Groups[24].Value);
+                                gravity3.Add(m.Groups[25].Value);
+                                orientation1.Add(m.Groups[11].Value);
+                                orientation2.Add(m.Groups[12].Value);
+                                orientation3.Add(m.Groups[13].Value);
+                                //sb.Append(m.Groups[1].Value + ": Line is OK\n");
+                            }
+                        }
+                    }
+
+                    DateTime from = DateTime.ParseExact(seconds.FirstOrDefault(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+                    DateTime to = DateTime.ParseExact(seconds.Last(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+                    sb.Append("Date:     " + from.ToLongDateString() + "\n");
+                    sb.Append("Start on: " + from.ToLongTimeString() + "\n");
+                    sb.Append("Stop on:  " + to.ToLongTimeString() + "\n\n");
+                    TimeSpan diff = to - from;
+                    sb.Append("Duration: " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s\n");
+                    diff = new TimeSpan(diff.Ticks / seconds.Count);
+                    sb.Append("Average:  " + diff.Minutes + "m " + diff.Seconds + "s " + diff.Milliseconds + "ms");
+
+                    this.acceleration1 = new Result(acceleration1);
+                    this.acceleration2 = new Result(acceleration2);
+                    this.acceleration3 = new Result(acceleration3);
+                    this.magnetometer1 = new Result(magnetometer1);
+                    this.magnetometer2 = new Result(magnetometer2);
+                    this.magnetometer3 = new Result(magnetometer3);
+                    this.light = new Result(light);
+                    this.proximity = new Result(proximity);
+                    this.rotationvector1 = new Result(rotvec1);
+                    this.rotationvector2 = new Result(rotvec2);
+                    this.rotationvector3 = new Result(rotvec3);
+                    this.rotationvector4 = new Result(rotvec4);
+                    this.orientation1 = new Result(orientation1);
+                    this.orientation2 = new Result(orientation2);
+                    this.orientation3 = new Result(orientation3);
+                    this.gyroscope1 = new Result(gyroscope1);
+                    this.gyroscope2 = new Result(gyroscope2);
+                    this.gyroscope3 = new Result(gyroscope3);
+                    this.gravity1 = new Result(gravity1);
+                    this.gravity2 = new Result(gravity2);
+                    this.gravity3 = new Result(gravity3);
+
+                    textBox.Text = sb.ToString();
+
+                    Calculate();
                 }
             }
-            DateTime from = DateTime.ParseExact(seconds.FirstOrDefault(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
-            DateTime to = DateTime.ParseExact(seconds.Last(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
-            sb.Append("Date:     " + from.ToLongDateString() + "\n");
-            sb.Append("Start on: " + from.ToLongTimeString() + "\n");
-            sb.Append("Stop on:  " + to.ToLongTimeString() + "\n\n");
-            TimeSpan diff = to - from;
-            sb.Append("Duration: " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s\n");
-            diff = new TimeSpan(diff.Ticks / seconds.Count);
-            sb.Append("Average:  " + diff.Minutes + "m " + diff.Seconds + "s " + diff.Milliseconds + "ms");
-
-            this.acceleration1 = new Result(acceleration1);
-            this.acceleration2 = new Result(acceleration2);
-            this.acceleration3 = new Result(acceleration3);
-            this.magnetometer1 = new Result(magnetometer1);
-            this.magnetometer2 = new Result(magnetometer2);
-            this.magnetometer3 = new Result(magnetometer3);
-            this.light = new Result(light);
-            this.proximity = new Result(proximity);
-            this.rotationvector1 = new Result(rotvec1);
-            this.rotationvector2 = new Result(rotvec2);
-            this.rotationvector3 = new Result(rotvec3);
-            this.rotationvector4 = new Result(rotvec4);
-            this.orientation1 = new Result(orientation1);
-            this.orientation2 = new Result(orientation2);
-            this.orientation3 = new Result(orientation3);
-            this.gyroscope1 = new Result(gyroscope1);
-            this.gyroscope2 = new Result(gyroscope2);
-            this.gyroscope3 = new Result(gyroscope3);
-            this.gravity1 = new Result(gravity1);
-            this.gravity2 = new Result(gravity2);
-            this.gravity3 = new Result(gravity3);
-
-            textBox.Text = sb.ToString();
-
-            Calculate();
         }
 
         private void Calculate()
@@ -189,6 +218,13 @@ namespace RandomizerAnalyzator
             orientationResults.Text = "Count: " + orientation1.getCount() + "\n" + orientation1.ToHstring()
                     + "\n" + orientation2.ToHstring() + "\n" + orientation3.ToHstring();
             hMaxLabel.Content = Math.Log(Convert.ToDouble(light.getCount()), 2.0);
+        }
+
+        private void CalculateSound()
+        {
+            accelerometerResults.Text = "SOUND\nCount: " + sound.getCount() + "\n" + sound.ToHstring()
+                + "\n" + sound.ToHstring() + "\n" + sound.ToHstring();
+            hMaxLabel.Content = Math.Log(Convert.ToDouble(sound.getCount()), 2.0);
         }
     }
 }
