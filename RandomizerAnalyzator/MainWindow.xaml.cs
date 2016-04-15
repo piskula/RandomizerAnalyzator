@@ -22,11 +22,14 @@ namespace RandomizerAnalyzator
     /// </summary>
     public partial class MainWindow : Window
     {
-        public const string PARSE_STRING = "yyyy/MM/dd HH:mm:ss.FFF";
+        public const string PARSE_STRING = "yyyy/MM/dd HH:mm:ss";
 
         Result acceleration1;
         Result acceleration2;
         Result acceleration3;
+        Result linAcceleration1;
+        Result linAcceleration2;
+        Result linAcceleration3;
         Result magnetometer1;
         Result magnetometer2;
         Result magnetometer3;
@@ -69,16 +72,29 @@ namespace RandomizerAnalyzator
             }
         }
 
+        private void split(string value, List<string> first, List<string> second, List<string> third)
+        {
+            var values = value.Split(',');
+            first.Add(values[0]);
+            second.Add(values[1]);
+            third.Add(values[2]);
+        }
+
         private void openFile(object sender, RoutedEventArgs e)
         {
-            Regex g = new Regex(@"(\d{4}\/\d{1,2}\/\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|");
-            StringBuilder sb = new StringBuilder();
+            Regex g = new Regex(@"(\d{4}\/\d{1,2}\/\d{1,2} \d{1,2}:\d{1,2}:\d{1,2})-(\w+):([^\|]*)");
+
+            //Regex g = new Regex(@"(\d{4}\/\d{1,2}\/\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|");
+            //StringBuilder sb = new StringBuilder();
 
             List<string> seconds = new List<string>();
 
             List<string> acceleration1 = new List<string>();
             List<string> acceleration2 = new List<string>();
             List<string> acceleration3 = new List<string>();
+            List<string> linAcceleration1 = new List<string>();
+            List<string> linAcceleration2 = new List<string>();
+            List<string> linAcceleration3 = new List<string>();
             List<string> magnetometer1 = new List<string>();
             List<string> magnetometer2 = new List<string>();
             List<string> magnetometer3 = new List<string>();
@@ -134,6 +150,28 @@ namespace RandomizerAnalyzator
                             Match m = g.Match(line);
                             if (m.Success)
                             {
+                                switch (m.Groups[2].Value)
+                                {
+                                    case "acc":
+                                        split(m.Groups[3].Value, acceleration1, acceleration2, acceleration3);
+                                        break;
+                                    case "linacc":
+                                        split(m.Groups[3].Value, linAcceleration1, linAcceleration2, linAcceleration3);
+                                        break;
+                                        //TO DO
+                                }
+                            }
+                        }
+                    }
+
+                    /*using (StreamReader r = new StreamReader(filePath.Text))
+                    {
+                        string line;
+                        while ((line = r.ReadLine()) != null)
+                        {
+                            Match m = g.Match(line);
+                            if (m.Success)
+                            {
                                 seconds.Add(m.Groups[1].Value);
 
                                 acceleration1.Add(m.Groups[3].Value);
@@ -160,22 +198,25 @@ namespace RandomizerAnalyzator
                                 //sb.Append(m.Groups[1].Value + ": Line is OK\n");
                             }
                         }
-                    }
+                    }*/
 
-                    DateTime from = DateTime.ParseExact(seconds.FirstOrDefault(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
-                    DateTime to = DateTime.ParseExact(seconds.Last(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
-                    sb.Append("Date:     " + from.ToLongDateString() + "\n");
-                    sb.Append("Start on: " + from.ToLongTimeString() + "\n");
-                    sb.Append("Stop on:  " + to.ToLongTimeString() + "\n\n");
-                    TimeSpan diff = to - from;
-                    sb.Append("Duration: " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s\n");
-                    diff = new TimeSpan(diff.Ticks / seconds.Count);
-                    sb.Append("Average:  " + diff.Minutes + "m " + diff.Seconds + "s " + diff.Milliseconds + "ms");
+                    //DateTime from = DateTime.ParseExact(seconds.FirstOrDefault(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+                    //DateTime to = DateTime.ParseExact(seconds.Last(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+                    //sb.Append("Date:     " + from.ToLongDateString() + "\n");
+                    //sb.Append("Start on: " + from.ToLongTimeString() + "\n");
+                    //sb.Append("Stop on:  " + to.ToLongTimeString() + "\n\n");
+                    //TimeSpan diff = to - from;
+                    //sb.Append("Duration: " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s\n");
+                    //diff = new TimeSpan(diff.Ticks / seconds.Count);
+                    //sb.Append("Average:  " + diff.Minutes + "m " + diff.Seconds + "s " + diff.Milliseconds + "ms");
 
                     this.acceleration1 = new Result(acceleration1);
                     this.acceleration2 = new Result(acceleration2);
                     this.acceleration3 = new Result(acceleration3);
-                    this.magnetometer1 = new Result(magnetometer1);
+                    this.linAcceleration1 = new Result(linAcceleration1);
+                    this.linAcceleration2 = new Result(linAcceleration2);
+                    this.linAcceleration3 = new Result(linAcceleration3);
+                    /*this.magnetometer1 = new Result(magnetometer1);
                     this.magnetometer2 = new Result(magnetometer2);
                     this.magnetometer3 = new Result(magnetometer3);
                     this.light = new Result(light);
@@ -192,9 +233,9 @@ namespace RandomizerAnalyzator
                     this.gyroscope3 = new Result(gyroscope3);
                     this.gravity1 = new Result(gravity1);
                     this.gravity2 = new Result(gravity2);
-                    this.gravity3 = new Result(gravity3);
+                    this.gravity3 = new Result(gravity3);*/
 
-                    textBox.Text = sb.ToString();
+                    //textBox.Text = sb.ToString();
 
                     Calculate();
                 }
@@ -205,9 +246,9 @@ namespace RandomizerAnalyzator
         {
             accelerometerResults.Text = "Count: " + acceleration1.getCount() + "\n" + acceleration1.ToHstring()
                 + "\n" + acceleration2.ToHstring() + "\n" + acceleration3.ToHstring();
-            magnetometerResults.Text = "Count: " + magnetometer1.getCount() + "\n" + magnetometer1.ToHstring()
-                + "\n" + magnetometer2.ToHstring() + "\n" + magnetometer3.ToHstring();
-            lightResults.Text = light.ToString();
+            magnetometerResults.Text = "Count: " + linAcceleration1.getCount() + "\n" + linAcceleration1.ToHstring()
+                + "\n" + linAcceleration2.ToHstring() + "\n" + linAcceleration3.ToHstring();
+            /*lightResults.Text = light.ToString();
             proximityResults.Text = proximity.ToString();
             rotVecResults.Text = "Count: " + rotationvector1.getCount() + "\n" + rotationvector1.ToHstring()
                 + "\n" + rotationvector2.ToHstring() + "\n" + rotationvector3.ToHstring() + "\n" + rotationvector4.ToHstring();
@@ -217,7 +258,7 @@ namespace RandomizerAnalyzator
                     + "\n" + gyroscope2.ToHstring() + "\n" + gyroscope3.ToHstring();
             orientationResults.Text = "Count: " + orientation1.getCount() + "\n" + orientation1.ToHstring()
                     + "\n" + orientation2.ToHstring() + "\n" + orientation3.ToHstring();
-            hMaxLabel.Content = Math.Log(Convert.ToDouble(light.getCount()), 2.0);
+            hMaxLabel.Content = Math.Log(Convert.ToDouble(light.getCount()), 2.0);*/
         }
 
         private void CalculateSound()
