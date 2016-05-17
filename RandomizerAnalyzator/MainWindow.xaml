@@ -5,38 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandomizerAnalyzator"
         mc:Ignorable="d"
-        Title="RandomizerAnalyzator - Entropy Calculator" Height="510" Width="855">
+        Title="RandomizerAnalyzator - Entropy Calculator" Height="660" Width="655">
     <Grid>
-        <TextBox x:Name="filePath" HorizontalAlignment="Left" Margin="20,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="400"  />
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="150" Margin="20,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"  />
-        <Button x:Name="browseButton" Content="Browse" HorizontalAlignment="Left" Margin="430,18,0,0" VerticalAlignment="Top" Width="75" Click="browseButtonClick"/>
-        <Button x:Name="open" Content="Open" HorizontalAlignment="Left" Margin="430,50,0,0" VerticalAlignment="Top" Width="75" Click="openFile" />
+        <TextBox x:Name="filePath" HorizontalAlignment="Left" Margin="20,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="600"  />
+        <Button x:Name="browseButton" Content="Browse" HorizontalAlignment="Left" Margin="530,58,0,0" VerticalAlignment="Top" Width="75" Click="browseButtonClick"/>
+        <Button x:Name="open" Content="Analyze" HorizontalAlignment="Left" Margin="530,88,0,0" VerticalAlignment="Top" Width="75" Click="openFile" />
         
-        <Label x:Name="accelerometerLabel" Content="Accelerometer" HorizontalAlignment="Left" Margin="190,100,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="accelerometerResults" HorizontalAlignment="Left" Height="120" Margin="194,123,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" IsEnabled="False"/>
+        <TextBox x:Name="firstResults" HorizontalAlignment="Left" Height="302" Margin="24,53,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250" IsEnabled="False"/>
 
-        <Label Content="Magnetometer (Compass)" HorizontalAlignment="Left" Margin="190,260,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="magnetometerResults" HorizontalAlignment="Left" Height="120" Margin="194,283,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" IsEnabled="False"/>
+        <TextBox x:Name="secondResults" HorizontalAlignment="Left" Height="250" Margin="24,365,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250" IsEnabled="False"/>
 
-        <Label Content="Light" HorizontalAlignment="Left" Margin="410,80,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="lightResults" HorizontalAlignment="Left" Height="60" Margin="414,103,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220" IsEnabled="False"/>
+        <TextBox x:Name="thirdResults" HorizontalAlignment="Left" Height="302" Margin="294,53,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" IsEnabled="False"/>
 
-        <Label Content="Proximity" HorizontalAlignment="Left" Margin="410,180,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="proximityResults" HorizontalAlignment="Left" Height="60" Margin="414,203,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220" IsEnabled="False"/>
-
-        <Label Content="Rotation Vector" HorizontalAlignment="Left" Margin="410,270,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="rotVecResults" HorizontalAlignment="Left" Height="150" Margin="414,293,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220" IsEnabled="False"/>
-
-        <Label Content="Orientation" HorizontalAlignment="Left" Margin="640,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="orientationResults" HorizontalAlignment="Left" Height="120" Margin="644,33,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" IsEnabled="False"/>
-
-        <Label Content="Gyroscope" HorizontalAlignment="Left" Margin="640,160,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="gyroscopeResults" HorizontalAlignment="Left" Height="120" Margin="644,183,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" IsEnabled="False"/>
-
-        <Label Content="Gravity" HorizontalAlignment="Left" Margin="640,320,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="gravityResults" HorizontalAlignment="Left" Height="120" Margin="644,343,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" IsEnabled="False"/>
-        
-        <Label x:Name="hMaxLabel" HorizontalAlignment="Left" Margin="240,65,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="fourthResults" HorizontalAlignment="Left" Height="250" Margin="294,365,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="210" IsEnabled="False"/>
 
     </Grid>
 </Window>

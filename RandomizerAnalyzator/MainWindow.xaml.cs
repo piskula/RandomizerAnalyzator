@@ -24,31 +24,31 @@ namespace RandomizerAnalyzator
     {
         public const string PARSE_STRING = "yyyy/MM/dd HH:mm:ss";
 
-        Result acceleration1;
-        Result acceleration2;
-        Result acceleration3;
-        Result linAcceleration1;
-        Result linAcceleration2;
-        Result linAcceleration3;
-        Result magnetometer1;
-        Result magnetometer2;
-        Result magnetometer3;
-        Result light;
-        Result proximity;
-        Result rotationvector1;
-        Result rotationvector2;
-        Result rotationvector3;
-        Result rotationvector4;
-        Result gravity1;
-        Result gravity2;
-        Result gravity3;
-        Result gyroscope1;
-        Result gyroscope2;
-        Result gyroscope3;
-        Result orientation1;
-        Result orientation2;
-        Result orientation3;
+        Result first1;
+        Result first2;
+        Result first3;
+        Result first4;
+        Result second1;
+        Result second2;
+        Result second3;
+        Result third1;
+        Result third2;
+        Result third3;
+        Result fourth1;
+        Result fourth2;
+        Result fourth3;
         Result sound;
+        Result picture;
+
+        List<string> firstTime;
+        List<string> secondTime;
+        List<string> thirdTime;
+        List<string> fourhTime;
+
+        string firstTitle;
+        string secondTitle;
+        string thirdTitle;
+        string fourthTitle;
 
         public MainWindow()
         {
@@ -72,48 +72,58 @@ namespace RandomizerAnalyzator
             }
         }
 
-        private void split(string value, List<string> first, List<string> second, List<string> third)
+        private void split1(string value, List<string> first)
+        {
+            var values = value.Split(',');
+            first.Add(values[0]);
+        }
+
+        private void split3(string value, List<string> first, List<string> second, List<string> third)
         {
             var values = value.Split(',');
             first.Add(values[0]);
             second.Add(values[1]);
             third.Add(values[2]);
         }
+        private void split4(string value, List<string> first, List<string> second, List<string> third, List<string> fourth)
+        {
+            var values = value.Split(',');
+            first.Add(values[0]);
+            second.Add(values[1]);
+            third.Add(values[2]);
+            fourth.Add(values[3]);
+        }
 
         private void openFile(object sender, RoutedEventArgs e)
         {
+            firstTitle = "";
+            secondTitle = "";
+            thirdTitle = "";
+            fourthTitle = "";
+
+            firstTime = new List<string>();
+            secondTime = new List<string>();
+            thirdTime = new List<string>();
+            fourhTime = new List<string>();
+
             Regex g = new Regex(@"(\d{4}\/\d{1,2}\/\d{1,2} \d{1,2}:\d{1,2}:\d{1,2})-(\w+):([^\|]*)");
+            SortedSet<string> names = new SortedSet<string>();
 
-            //Regex g = new Regex(@"(\d{4}\/\d{1,2}\/\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}.\d{1,3})\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*),([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|(\w+):([-]{0,1}\d{0,1}.\d+E[-]{0,1}\d+|[-]{0,1}\d*.\d*)\|");
-            //StringBuilder sb = new StringBuilder();
-
-            List<string> seconds = new List<string>();
-
-            List<string> acceleration1 = new List<string>();
-            List<string> acceleration2 = new List<string>();
-            List<string> acceleration3 = new List<string>();
-            List<string> linAcceleration1 = new List<string>();
-            List<string> linAcceleration2 = new List<string>();
-            List<string> linAcceleration3 = new List<string>();
-            List<string> magnetometer1 = new List<string>();
-            List<string> magnetometer2 = new List<string>();
-            List<string> magnetometer3 = new List<string>();
-            List<string> light = new List<string>();
-            List<string> proximity = new List<string>();
-            List<string> rotvec1 = new List<string>();
-            List<string> rotvec2 = new List<string>();
-            List<string> rotvec3 = new List<string>();
-            List<string> rotvec4 = new List<string>();
-            List<string> orientation1 = new List<string>();
-            List<string> orientation2 = new List<string>();
-            List<string> orientation3 = new List<string>();
-            List<string> gyroscope1 = new List<string>();
-            List<string> gyroscope2 = new List<string>();
-            List<string> gyroscope3 = new List<string>();
-            List<string> gravity1 = new List<string>();
-            List<string> gravity2 = new List<string>();
-            List<string> gravity3 = new List<string>();
+            List<string> first1 = new List<string>();
+            List<string> first2 = new List<string>();
+            List<string> first3 = new List<string>();
+            List<string> first4 = new List<string>();
+            List<string> second1 = new List<string>();
+            List<string> second2 = new List<string>();
+            List<string> second3 = new List<string>();
+            List<string> third1 = new List<string>();
+            List<string> third2 = new List<string>();
+            List<string> third3 = new List<string>();
+            List<string> fourth1 = new List<string>();
+            List<string> fourth2 = new List<string>();
+            List<string> fourth3 = new List<string>();
             List<string> sound = new List<string>();
+            List<string> picture = new List<string>();
 
             if (filePath.Text != "")
             {
@@ -140,6 +150,21 @@ namespace RandomizerAnalyzator
 
                     CalculateSound();
                 }
+                else if (filePath.Text.Contains("a_") && filePath.Text.Contains(".vvp"))
+                {
+                    using (StreamReader r = new StreamReader(filePath.Text))
+                    {
+                        string line;
+                        while ((line = r.ReadLine()) != null)
+                        {
+                            picture.Add(line);
+                        }
+                    }
+
+                    this.picture = new Result(picture);
+
+                    CalculatePicture();
+                }
                 else
                 {
                     using (StreamReader r = new StreamReader(filePath.Text))
@@ -150,122 +175,133 @@ namespace RandomizerAnalyzator
                             Match m = g.Match(line);
                             if (m.Success)
                             {
+                                names.Add(m.Groups[2].Value);
                                 switch (m.Groups[2].Value)
                                 {
-                                    case "acc":
-                                        split(m.Groups[3].Value, acceleration1, acceleration2, acceleration3);
-                                        break;
                                     case "linacc":
-                                        split(m.Groups[3].Value, linAcceleration1, linAcceleration2, linAcceleration3);
+                                        firstTime.Add(m.Groups[1].Value);
+                                        split3(m.Groups[3].Value, first1, first2, first3);
+                                        firstTitle = "Linear Acceleration";
                                         break;
-                                        //TO DO
+                                    case "proximity":
+                                        firstTime.Add(m.Groups[1].Value);
+                                        split1(m.Groups[3].Value, first1);
+                                        firstTitle = "Proximity";
+                                        break;
+                                    case "rotvec":
+                                        firstTime.Add(m.Groups[1].Value);
+                                        split4(m.Groups[3].Value, first1, first2, first3, first4);
+                                        firstTitle = "Rotation Vector";
+                                        break;
+
+                                    case "light":
+                                        secondTime.Add(m.Groups[1].Value);
+                                        split1(m.Groups[3].Value, second1);
+                                        secondTitle = "Light";
+                                        break;
+                                    case "acc":
+                                        secondTime.Add(m.Groups[1].Value);
+                                        split3(m.Groups[3].Value, second1, second2, second3);
+                                        secondTitle = "Acceleration";
+                                        break;
+                                    case "gravity":
+                                        secondTime.Add(m.Groups[1].Value);
+                                        split3(m.Groups[3].Value, second1, second2, second3);
+                                        secondTitle = "Gravity";
+                                        break;
+
+                                    case "gyro":
+                                        thirdTime.Add(m.Groups[1].Value);
+                                        split3(m.Groups[3].Value, third1, third2, third3);
+                                        thirdTitle = "Gyroscope";
+                                        break;
+
+                                    case "magn":
+                                        fourhTime.Add(m.Groups[1].Value);
+                                        split3(m.Groups[3].Value, fourth1, fourth2, fourth3);
+                                        fourthTitle = "Magnetometer";
+                                        break;
                                 }
                             }
                         }
                     }
-
-                    /*using (StreamReader r = new StreamReader(filePath.Text))
-                    {
-                        string line;
-                        while ((line = r.ReadLine()) != null)
-                        {
-                            Match m = g.Match(line);
-                            if (m.Success)
-                            {
-                                seconds.Add(m.Groups[1].Value);
-
-                                acceleration1.Add(m.Groups[3].Value);
-                                acceleration2.Add(m.Groups[4].Value);
-                                acceleration3.Add(m.Groups[5].Value);
-                                magnetometer1.Add(m.Groups[7].Value);
-                                magnetometer2.Add(m.Groups[8].Value);
-                                magnetometer3.Add(m.Groups[9].Value);
-                                light.Add(m.Groups[19].Value);
-                                proximity.Add(m.Groups[21].Value);
-                                rotvec1.Add(m.Groups[31].Value);
-                                rotvec2.Add(m.Groups[32].Value);
-                                rotvec3.Add(m.Groups[33].Value);
-                                rotvec4.Add(m.Groups[34].Value);
-                                gyroscope1.Add(m.Groups[15].Value);
-                                gyroscope2.Add(m.Groups[16].Value);
-                                gyroscope3.Add(m.Groups[17].Value);
-                                gravity1.Add(m.Groups[23].Value);
-                                gravity2.Add(m.Groups[24].Value);
-                                gravity3.Add(m.Groups[25].Value);
-                                orientation1.Add(m.Groups[11].Value);
-                                orientation2.Add(m.Groups[12].Value);
-                                orientation3.Add(m.Groups[13].Value);
-                                //sb.Append(m.Groups[1].Value + ": Line is OK\n");
-                            }
-                        }
-                    }*/
-
-                    //DateTime from = DateTime.ParseExact(seconds.FirstOrDefault(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
-                    //DateTime to = DateTime.ParseExact(seconds.Last(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
-                    //sb.Append("Date:     " + from.ToLongDateString() + "\n");
-                    //sb.Append("Start on: " + from.ToLongTimeString() + "\n");
-                    //sb.Append("Stop on:  " + to.ToLongTimeString() + "\n\n");
-                    //TimeSpan diff = to - from;
-                    //sb.Append("Duration: " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s\n");
-                    //diff = new TimeSpan(diff.Ticks / seconds.Count);
-                    //sb.Append("Average:  " + diff.Minutes + "m " + diff.Seconds + "s " + diff.Milliseconds + "ms");
-
-                    this.acceleration1 = new Result(acceleration1);
-                    this.acceleration2 = new Result(acceleration2);
-                    this.acceleration3 = new Result(acceleration3);
-                    this.linAcceleration1 = new Result(linAcceleration1);
-                    this.linAcceleration2 = new Result(linAcceleration2);
-                    this.linAcceleration3 = new Result(linAcceleration3);
-                    /*this.magnetometer1 = new Result(magnetometer1);
-                    this.magnetometer2 = new Result(magnetometer2);
-                    this.magnetometer3 = new Result(magnetometer3);
-                    this.light = new Result(light);
-                    this.proximity = new Result(proximity);
-                    this.rotationvector1 = new Result(rotvec1);
-                    this.rotationvector2 = new Result(rotvec2);
-                    this.rotationvector3 = new Result(rotvec3);
-                    this.rotationvector4 = new Result(rotvec4);
-                    this.orientation1 = new Result(orientation1);
-                    this.orientation2 = new Result(orientation2);
-                    this.orientation3 = new Result(orientation3);
-                    this.gyroscope1 = new Result(gyroscope1);
-                    this.gyroscope2 = new Result(gyroscope2);
-                    this.gyroscope3 = new Result(gyroscope3);
-                    this.gravity1 = new Result(gravity1);
-                    this.gravity2 = new Result(gravity2);
-                    this.gravity3 = new Result(gravity3);*/
-
-                    //textBox.Text = sb.ToString();
+                    
+                    this.first1 = new Result(first1);
+                    this.first2 = new Result(first2);
+                    this.first3 = new Result(first3);
+                    this.first4 = new Result(first4);
+                    this.second1 = new Result(second1);
+                    this.second2 = new Result(second2);
+                    this.second3 = new Result(second3);
+                    this.third1 = new Result(third1);
+                    this.third2 = new Result(third2);
+                    this.third3 = new Result(third3);
+                    this.fourth1 = new Result(fourth1);
+                    this.fourth2 = new Result(fourth2);
+                    this.fourth3 = new Result(fourth3);
 
                     Calculate();
                 }
             }
         }
 
+        private string getTime(List<string> times)
+        {
+            StringBuilder sb = new StringBuilder();
+            DateTime from = DateTime.ParseExact(times.FirstOrDefault(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+            DateTime to = DateTime.ParseExact(times.Last(), PARSE_STRING, System.Globalization.CultureInfo.InvariantCulture);
+
+            sb.Append("Date:     " + from.ToLongDateString() + "\n");
+            sb.Append(from.ToLongTimeString() + "-" + to.ToLongTimeString() + "\n");
+            TimeSpan diff = to - from;
+            sb.Append("Duration: " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s\n");
+            diff = new TimeSpan(diff.Ticks / times.Count);
+            sb.Append("Average:  " + diff.Minutes + "m " + diff.Seconds + "s " + diff.Milliseconds + "ms\n");
+
+            return sb.ToString();
+        }
+
         private void Calculate()
         {
-            accelerometerResults.Text = "Count: " + acceleration1.getCount() + "\n" + acceleration1.ToHstring()
-                + "\n" + acceleration2.ToHstring() + "\n" + acceleration3.ToHstring();
-            magnetometerResults.Text = "Count: " + linAcceleration1.getCount() + "\n" + linAcceleration1.ToHstring()
-                + "\n" + linAcceleration2.ToHstring() + "\n" + linAcceleration3.ToHstring();
-            /*lightResults.Text = light.ToString();
-            proximityResults.Text = proximity.ToString();
-            rotVecResults.Text = "Count: " + rotationvector1.getCount() + "\n" + rotationvector1.ToHstring()
-                + "\n" + rotationvector2.ToHstring() + "\n" + rotationvector3.ToHstring() + "\n" + rotationvector4.ToHstring();
-            gravityResults.Text = "Count: " + gravity1.getCount() + "\n" + gravity1.ToHstring()
-                    + "\n" + gravity2.ToHstring() + "\n" + gravity3.ToHstring();
-            gyroscopeResults.Text = "Count: " + gyroscope1.getCount() + "\n" + gyroscope1.ToHstring()
-                    + "\n" + gyroscope2.ToHstring() + "\n" + gyroscope3.ToHstring();
-            orientationResults.Text = "Count: " + orientation1.getCount() + "\n" + orientation1.ToHstring()
-                    + "\n" + orientation2.ToHstring() + "\n" + orientation3.ToHstring();
-            hMaxLabel.Content = Math.Log(Convert.ToDouble(light.getCount()), 2.0);*/
+            if (firstTitle != "")
+            {
+                firstResults.Text = firstTitle + "\n" + getTime(firstTime) + "Count: " + first1.getCount() + "\n" + first1.ToHstring()
+                + "\n" + first2.ToHstring() + "\n" + first3.ToHstring() + "\n" + first4.ToHstring();
+            }
+            else firstResults.Text = "";
+            if(secondTitle != "")
+            {
+                secondResults.Text = secondTitle + "\n" + getTime(secondTime) + "Count: " + second1.getCount() + "\n" + second1.ToHstring()
+                + "\n" + second2.ToHstring() + "\n" + second3.ToHstring();
+            }
+            else secondResults.Text = "";
+            if (thirdTitle != "")
+            {
+                thirdResults.Text = thirdTitle + "\n" + getTime(thirdTime) + "Count: " + third1.getCount() + "\n" + third1.ToHstring()
+                + "\n" + third2.ToHstring() + "\n" + third3.ToHstring();
+            }
+            else thirdResults.Text = "";
+            if (fourthTitle != "")
+            {
+                fourthResults.Text = fourthTitle + "\n" + getTime(fourhTime) + "Count: " + fourth1.getCount() + "\n" + fourth1.ToHstring()
+                + "\n" + fourth2.ToHstring() + "\n" + fourth3.ToHstring();
+            }
+            else fourthResults.Text = "";
         }
 
         private void CalculateSound()
         {
-            accelerometerResults.Text = "SOUND\nCount: " + sound.getCount() + "\n" + sound.ToHstring()
-                + "\n" + sound.ToHstring() + "\n" + sound.ToHstring();
-            hMaxLabel.Content = Math.Log(Convert.ToDouble(sound.getCount()), 2.0);
+            firstResults.Text = "SOUND\nCount: " + sound.getCount() + "\n" + sound.ToHstring();
+            secondResults.Text = "";
+            thirdResults.Text = "";
+            fourthResults.Text = "";
+        }
+        private void CalculatePicture()
+        {
+            firstResults.Text = "PICTURE\nCount: " + picture.getCount() + "\n" + picture.ToHstring();
+            secondResults.Text = "";
+            thirdResults.Text = "";
+            fourthResults.Text = "";
         }
     }
 }

@@ -15,12 +15,14 @@ namespace RandomizerAnalyzator
         private double H = Convert.ToDouble(0);
         private int maxCount = -1;
         private int count = 0;
+        private double max = Double.MinValue;
+        private double min = Double.MaxValue;
 
         public Result(List<String> values)
         {
             foreach(var current in values)
             {
-                addValue( double.Parse(current, CultureInfo.InvariantCulture));
+                addValue(double.Parse(current, CultureInfo.InvariantCulture));
             }
             calculate();
         }
@@ -55,6 +57,8 @@ namespace RandomizerAnalyzator
             {
                 streamedData.Add(number, 1);
             }
+            if (number > max) max = number;
+            if (number < min) min = number;
         }
 
         public double getHmin()
@@ -77,12 +81,26 @@ namespace RandomizerAnalyzator
             return maxCount;
         }
 
+        public double getMaxValue()
+        {
+            return max;
+        }
+
+        public double getMinValue()
+        {
+            return min;
+        }
+
+        public double getMaxDiff()
+        {
+            return max - min;
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
             sb.Append("Count: " + getCount() + "\n");
-            sb.Append("H =    " + getH() + "\n");
             sb.Append("Hmin   " + getHmin() + " [" + getMaxCount() + "]");
 
             return sb.ToString();
@@ -90,7 +108,7 @@ namespace RandomizerAnalyzator
 
         public string ToHstring()
         {
-            return "H =    " + getH() + "\nHmin   " + getHmin() + " [" + getMaxCount() + "]";
+            return "H      " + getH() + "\nHmin   " + getHmin() + " [" + getMaxCount() + "]\n    min: " + getMinValue() + ", max " + getMaxValue() + "\n    Diff: " + (max - min);
         }
     }
 }
